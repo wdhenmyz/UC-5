@@ -258,3 +258,19 @@ select * from dinheiro_fisico
 select * from cartaoCredito
 select * from cartaoDebito
 select * from entregador
+
+
+
+
+--alterar o nome da tabela
+exec sp_rename 'cliente', 'pessoa';
+
+--alterar o nome das tabelas
+exec sp_rename 'cliente.id_endereco', 'CEP','COLUMN';
+
+--alterar os registros, alterando o nome do aluno usando o seu respectivo cpf
+UPDATE cliente
+set nome = 'arian'
+where cpf= '12345678912';
+
+-- .bak
