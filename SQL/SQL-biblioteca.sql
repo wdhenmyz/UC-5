@@ -91,8 +91,11 @@ insert into cliente(
 	estado
 )
 values 
+('7890000123','ful ano','meu@email.com','44912345678','44987654321','cirian','aqulele','tal','consta'),
+('8884567000','cic ano','aura@email.com','55912345678','55987654321','cirian','aqulele','tal','consta'),
 ('0000000123','fulano','meu@email.com','44912345678','44987654321','cirian','aqulele','tal','consta'),
 ('1234567000','cicrano','aura@email.com','55912345678','55987654321','cirian','aqulele','tal','consta');
+
 
 insert into pessoa_Fisica(
 	cod_cliente,
@@ -155,7 +158,6 @@ values
 
 
 
-
 select * from cliente
 select * from pessoa_Fisica
 select * from pessoa_Juridica
@@ -165,4 +167,45 @@ select * from livro
 select * from estoque
 select * from item_pedido
 
+
+
 exec sp_rename 'pessoa_Juridica.id', 'ie','COLUMN';
+
+-- busca por atributo
+select nome from cliente;
+select cod_pedido from pedido;
+select nome_contato from editora;
+
+--buscar por algo em especifico
+select * from cliente where cod_cliente = '1234567000';
+
+--buscar dados específicos usando caractere curinga
+select * from cliente where nome like 'C%';
+select * from cliente where nome like 'f%';
+
+--buscar por sobrenome do aluno
+select * from cliente where nome like '%ano';
+
+--oredenação de valores
+select * from cliente order by nome;
+
+--consultar todos clientes em uma tabela especifica: com nome da table.
+select cliente.nome
+from cliente
+join pessoa_Fisica on cliente.cod_cliente = pessoa_Fisica.cod_cliente;
+select cliente.nome
+from cliente
+join pessoa_Juridica on cliente.cod_cliente = pessoa_Juridica.cod_cliente;
+
+--consultar todos clientes em uma tabela especifica: de forma simplificada.
+select c.nome
+from cliente c      --tabela cliente passou a ser "c"
+join pessoa_Fisica pF on c.cod_cliente = pF.cod_cliente;
+select c.nome
+from cliente c
+join pessoa_Juridica pJ on c.cod_cliente = pJ.cod_cliente;
+
+--contagem de valores
+select * from cliente
+select count(*) as total_clientes from cliente;
+
