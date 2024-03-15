@@ -193,6 +193,7 @@ select * from cliente order by nome;
 select cliente.nome
 from cliente
 join pessoa_Fisica on cliente.cod_cliente = pessoa_Fisica.cod_cliente;
+
 select cliente.nome
 from cliente
 join pessoa_Juridica on cliente.cod_cliente = pessoa_Juridica.cod_cliente;
@@ -201,6 +202,7 @@ join pessoa_Juridica on cliente.cod_cliente = pessoa_Juridica.cod_cliente;
 select c.nome
 from cliente c      --tabela cliente passou a ser "c"
 join pessoa_Fisica pF on c.cod_cliente = pF.cod_cliente;
+
 select c.nome
 from cliente c
 join pessoa_Juridica pJ on c.cod_cliente = pJ.cod_cliente;
