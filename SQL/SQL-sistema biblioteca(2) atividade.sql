@@ -12,6 +12,7 @@ join BIBLIOTECARIO on FUNCIONARIO.matricula = BIBLIOTECARIO.matricula;
 
 --questão 3 (feito)
 select * from livro where numero_registro = 10
+select titulo,autor from livro where numero_registro = 10
 
 
 --questão 4 (feito)
