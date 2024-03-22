@@ -16,8 +16,83 @@ create table curso(
 	data_inicio date,
 	data_termino date,
 	horario time
+	nome varchar(20)
 	foreign key (id_instituicao) references instituicao(id_instituicao)
 );
+
+create table curso_TEC(
+	id_curso_TEC int identity(1,1) primary key,
+	nome VARCHAR(30),
+    area VARCHAR(40),
+    horario_inicio TIME,
+    horario_fim TIME,
+    dia_semana VARCHAR(20),
+	id_curso int
+	foreign key (id_curso) references curso(id_curso)
+)
+
+create table curso_livre(
+	id_curso_livre INT identity(1,1) PRIMARY KEY,
+    nome VARCHAR(40),
+    descricao TEXT,
+    duracao_horas INT,
+    horario_inicio TIME,
+    horario_fim TIME,
+    dia_semana VARCHAR(20),
+	id_curso int
+	foreign key (id_curso) references curso(id_curso)
+)
+
+create table idiomas(
+	id_curso_idiomas int identity(1,1) primary key,
+	nome VARCHAR(20),
+    nivel VARCHAR(20),
+    horario_inicio TIME,
+    horario_fim TIME,
+    dia_semana VARCHAR(20),
+	id_curso int,
+	id_idioma_ingles int,
+	id_idioma_espanhol int,
+	id_idioma_alemao int,
+	id_idioma_frances int,
+	id_idioma_italiano int,
+	foreign key (id_curso) references curso(id_curso)
+)
+
+create table idioma_ingles(
+	id_idioma_ingles int identity(1,1) primary key,
+	id_curso_idiomas int,
+	foreign key (id_curso_idiomas) references idiomas(id_curso_idiomas)
+)
+
+
+create table idioma_espanhol(
+	id_idioma_espanhol int identity(1,1) primary key,
+	id_curso_idiomas int
+	foreign key (id_curso_idiomas) references idiomas(id_curso_idiomas)
+)
+
+
+create table idioma_alemao(
+	id_idioma_alemao int identity(1,1) primary key,
+	id_curso_idiomas int
+	foreign key (id_curso_idiomas) references idiomas(id_curso_idiomas)
+)
+
+
+create table idioma_frances(
+	id_idioma_frances int identity(1,1) primary key,
+	id_curso_idiomas int
+	foreign key (id_curso_idiomas) references idiomas(id_curso_idiomas)
+)
+
+
+create table idioma_italiano(
+	id_idioma_italiano int identity(1,1) primary key,
+	id_curso_idiomas int
+	foreign key (id_curso_idiomas) references idiomas(id_curso_idiomas)
+)
+
 
 create table uc(
 	id_uc int identity(1,1) primary key,
