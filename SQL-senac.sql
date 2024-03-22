@@ -35,6 +35,13 @@ create table turma(
 	foreign key (id_uc) references uc(id_uc)
 );
 
+ALTER TABLE curso ADD nome VARCHAR(20)
+ALTER TABLE uc ADD nome VARCHAR(9)
+ALTER TABLE turma ADD nome VARCHAR(9)
+UPDATE curso SET nome = 'informática' WHERE id_curso = 1
+UPDATE uc SET nome = 'uc-4' WHERE id_uc = 1
+UPDATE turma SET nome = '1003' WHERE id_turma = 2
+
 
 
 -- criando tabela funcionario
