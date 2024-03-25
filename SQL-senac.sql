@@ -407,6 +407,13 @@ UPDATE curso SET numero_vagas = '40' WHERE id_curso = 7
 UPDATE curso SET id_professor = '1' WHERE id_curso = 1
 UPDATE curso SET id_professor = '1' WHERE id_curso = 7
 
+UPDATE curso SET numero_alunos = '20' WHERE id_curso = 1
+UPDATE curso SET numero_alunos = '12' WHERE id_curso = 2
+UPDATE curso SET numero_alunos = '23' WHERE id_curso = 3
+UPDATE curso SET numero_alunos = '22' WHERE id_curso = 4
+UPDATE curso SET numero_alunos = '33' WHERE id_curso = 5
+UPDATE curso SET numero_alunos = '35' WHERE id_curso = 6
+UPDATE curso SET numero_alunos = '40' WHERE id_curso = 7
 
 
 ------------------------
@@ -457,7 +464,7 @@ select * from pedagogo
 select * from ASG
 select * from porteiro
 
-select * from funcionario
+
 
 UPDATE funcionario SET horario = '7:00:00' WHERE id_funcionario = 1
 UPDATE funcionario SET horario = '7:00:00' WHERE id_funcionario = 2
@@ -577,6 +584,54 @@ UPDATE funcionario SET id_endereco = 5 WHERE id_funcionario = 1;
 UPDATE funcionario SET id_endereco = 6 WHERE id_funcionario = 2;
 UPDATE funcionario SET id_endereco = 7 WHERE id_funcionario = 3;
 UPDATE funcionario SET id_endereco = 8 WHERE id_funcionario = 4;
+
+
+
+
+
+1) select * from funcionario
+2) SELECT curso.nome, curso.numero_alunos
+   FROM curso
+3) select * from funcionario ORDER BY salario desc
+7) select nome from curso where numero_alunos = null
+9) select horario from curso
+10) select * from aluno WHERE nome LIKE 'a%'
+11) select * from funcionario
+	select * from funcionario where data_contratacao >= '20230325'
+12) select curso.numero_alunos,curso.nome from curso where id_curso = 7
+13) select * from curso ORDER BY numero_vagas
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
