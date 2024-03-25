@@ -600,6 +600,9 @@ UPDATE funcionario SET id_endereco = 8 WHERE id_funcionario = 4;
 	select * from funcionario where data_contratacao >= '20230325'
 12) select curso.numero_alunos,curso.nome from curso where id_curso = 7
 13) select * from curso ORDER BY numero_vagas
+16) select * from curso where data_inicio >= '20000101'
+17) SELECT COUNT (*) FROM aluno WHERE genero = 'F';
+19) select * from curso
 
 
 
