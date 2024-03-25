@@ -15,8 +15,9 @@ create table curso(
 	id_instituicao int,
 	data_inicio date,
 	data_termino date,
-	horario time
-	nome varchar(20)
+	horario time,
+	nome varchar(20),
+	numero_alunos int,
 	foreign key (id_instituicao) references instituicao(id_instituicao)
 );
 
@@ -27,6 +28,12 @@ create table curso_TEC(
     horario_inicio TIME,
     horario_fim TIME,
     dia_semana VARCHAR(20),
+	id_curso int
+	foreign key (id_curso) references curso(id_curso)
+)
+
+create table TEC_DES_SISTEMAS(
+	id_TEC_DES_SISTEMAS int identity(1,1) primary key,
 	id_curso int
 	foreign key (id_curso) references curso(id_curso)
 )
@@ -57,6 +64,11 @@ create table idiomas(
 	id_idioma_frances int,
 	id_idioma_italiano int,
 	foreign key (id_curso) references curso(id_curso)
+	foreign key (id_idioma_ingles) references curso(id_idioma_ingles)
+	foreign key (id_idioma_espanhol) references curso(id_idioma_espanhol)
+	foreign key (id_idioma_alemao) references curso(id_idioma_alemao)
+	foreign key (id_idioma_frances) references curso(id_idioma_frances)
+	foreign key (id_idioma_italiano ) references curso(id_idioma_italiano )
 )
 
 create table idioma_ingles(
@@ -99,6 +111,7 @@ create table uc(
 	id_curso int,
 	data_inicio date,
 	data_termino date,
+	nome varchar(9),
 	foreign key (id_curso) references curso(id_curso)
 );
 
@@ -106,11 +119,14 @@ create table turma(
 	id_turma int identity(1,1) primary key,
 	id_uc int,
 	id_curso int,
+	nome varchar(9)
 	foreign key (id_curso) references curso(id_curso),
 	foreign key (id_uc) references uc(id_uc)
 );
 
 ALTER TABLE curso ADD nome VARCHAR(20)
+ALTER TABLE curso ADD id_professor int
+foreign key (id_professor) references professor(id_professor);
 ALTER TABLE uc ADD nome VARCHAR(9)
 ALTER TABLE turma ADD nome VARCHAR(9)
 UPDATE curso SET nome = 'informática' WHERE id_curso = 1
@@ -126,7 +142,8 @@ create table funcionario(
 	telefone char(11),
 	email varchar(50) unique,
 	cpf char(11) unique,
-	data_nascimento date
+	data_nascimento date,
+	salario int
 );
 
 create table contrato(
@@ -161,6 +178,13 @@ create table pedagogo(
 	foreign key (id_funcionario) references funcionario(id_funcionario)
 );
 
+ALTER TABLE funcionario ADD salario int
+update funcionario set salario = '2200' where id_funcionario = 1
+update funcionario set salario = '2500' where id_funcionario = 2
+update funcionario set salario = '3000' where id_funcionario = 3
+update funcionario set salario = '2900' where id_funcionario = 4
+
+
 
 
 -- criando tabela aluno
@@ -171,7 +195,8 @@ create table aluno(
 	email varchar(50) unique,
 	cpf char(11) unique,
 	data_nascimento date,
-	data_matricula date
+	data_matricula date,
+	genero varchar (2)
 );
 
 create table aprendiz(
@@ -240,9 +265,117 @@ insert into curso(
 	id_instituicao,
 	data_inicio,
 	data_termino,
-	horario 
+	horario,
+	nome
 )
-values('2','20000103','20020105','13:00:00')
+values
+('2','20000103','20020105','8:00:00','TEC_DES_SISTEMAS')
+
+UPDATE curso SET data_termino = '20000603' WHERE id_curso = 2
+UPDATE curso SET data_termino = '20000403' WHERE id_curso = 3
+UPDATE curso SET data_termino = '20000503' WHERE id_curso = 4
+UPDATE curso SET data_termino = '20000303' WHERE id_curso = 5
+UPDATE curso SET data_termino = '20000503' WHERE id_curso = 6
+
+insert into TEC_DES_SISTEMAS(
+	id_curso
+)
+values('7')
+select * from TEC_DES_SISTEMAS
+
+
+insert into idiomas(
+	nome ,
+    nivel ,
+    horario_inicio,
+    horario_fim ,
+    dia_semana,
+	id_curso
+)
+values
+('inglês','médio','13:00:00','17:00:00','S,T,Q,Q,S','2')
+
+insert into idiomas(
+	nome ,
+    nivel ,
+    horario_inicio,
+    horario_fim ,
+    dia_semana,
+	id_curso
+)
+values
+('espanhol','médio','8:00:00','12:00:00','S,T,Q,Q,S','3')
+
+insert into idiomas(
+	nome ,
+    nivel ,
+    horario_inicio,
+    horario_fim ,
+    dia_semana,
+	id_curso
+)
+values
+('alemão','médio','8:00:00','12:00:00','S,T,Q,Q,S','4')
+
+insert into idiomas(
+	nome ,
+    nivel ,
+    horario_inicio,
+    horario_fim ,
+    dia_semana,
+	id_curso
+)
+values
+('francês','médio','8:00:00','12:00:00','S,T,Q,Q,S','5')
+
+insert into idiomas(
+	nome ,
+    nivel ,
+    horario_inicio,
+    horario_fim ,
+    dia_semana,
+	id_curso
+)
+values
+('italiano','médio','13:00:00','17:00:00','S,T,Q,Q,S','6')
+
+select * from idiomas
+
+insert into idioma_alemao(
+	id_curso_idiomas
+)
+values ('1')
+insert into idioma_espanhol(
+	id_curso_idiomas
+)
+values ('2')
+insert into idioma_frances(
+	id_curso_idiomas
+)
+values ('3')
+insert into idioma_ingles(
+	id_curso_idiomas
+)
+values ('4')
+insert into idioma_italiano(
+	id_curso_idiomas
+)
+values ('5')
+
+select * from idioma_alemao
+select * from idioma_espanhol
+select * from idioma_frances
+select * from idioma_ingles
+select * from idioma_italiano
+
+UPDATE idiomas SET id_idioma_espanhol = NULL WHERE id_curso_idiomas = 2;
+UPDATE idiomas SET id_idioma_frances = NULL WHERE id_curso_idiomas = 2;
+UPDATE idiomas SET id_idioma_italiano = NULL WHERE id_curso_idiomas = 2;
+UPDATE idiomas SET id_idioma_ingles = NULL WHERE id_curso_idiomas = 2;
+
+
+
+
 
 insert into uc(
 	id_curso,
@@ -262,6 +395,18 @@ select * from curso
 select * from uc
 select * from turma
 
+ALTER TABLE curso add numero_alunos int
+ALTER TABLE curso add numero_vagas int
+UPDATE curso SET numero_vagas = '25' WHERE id_curso = 1
+UPDATE curso SET numero_vagas = '30' WHERE id_curso = 2
+UPDATE curso SET numero_vagas = '30' WHERE id_curso = 3
+UPDATE curso SET numero_vagas = '30' WHERE id_curso = 4
+UPDATE curso SET numero_vagas = '35' WHERE id_curso = 5
+UPDATE curso SET numero_vagas = '40' WHERE id_curso = 6
+UPDATE curso SET numero_vagas = '40' WHERE id_curso = 7
+UPDATE curso SET id_professor = '1' WHERE id_curso = 1
+UPDATE curso SET id_professor = '1' WHERE id_curso = 7
+
 
 
 ------------------------
@@ -275,6 +420,9 @@ insert into funcionario(
 )
 values
 ('bam','84911111111','bam@horas.com','12347789500','20020101')
+
+ALTER TABLE funcionario add horario time
+ALTER TABLE funcionario add data_contratacao date
 
 
 insert into contrato(
@@ -309,8 +457,24 @@ select * from pedagogo
 select * from ASG
 select * from porteiro
 
+select * from funcionario
+
+UPDATE funcionario SET horario = '7:00:00' WHERE id_funcionario = 1
+UPDATE funcionario SET horario = '7:00:00' WHERE id_funcionario = 2
+UPDATE funcionario SET horario = '7:00:00' WHERE id_funcionario = 3
+UPDATE funcionario SET horario = '7:00:00' WHERE id_funcionario = 4
 
 
+UPDATE funcionario SET data_contratacao = '20240125' WHERE id_funcionario = 1
+UPDATE funcionario SET data_contratacao = '20231125' WHERE id_funcionario = 2
+UPDATE funcionario SET data_contratacao = '20231205' WHERE id_funcionario = 3
+UPDATE funcionario SET data_contratacao = '20230104' WHERE id_funcionario = 4
+
+ALTER TABLE funcionario add genero varchar(2)
+UPDATE funcionario SET genero = 'M' WHERE id_funcionario = 1
+UPDATE funcionario SET genero = 'F' WHERE id_funcionario = 2
+UPDATE funcionario SET genero = 'F' WHERE id_funcionario = 3
+UPDATE funcionario SET genero = 'M' WHERE id_funcionario = 4
 
 
 -------------------
@@ -324,9 +488,8 @@ insert into aluno(
 	data_matricula
 )
 values 
-('aria','84900112233','aria@email.com','11111111100','20031001','20091001'),
-('are','84932111234','are@email.com','22222222200','20061001','20121001'),
-('ori','84988889999','ori@email.com','33333333300','20051001','20011001');
+('onde','84966667777','were@email.com','23232344455','20030404','20091001'),
+('esta','84990876543','is@email.com','66677788890','20050922','20011001');
 
 
 insert into aprendiz(
@@ -336,20 +499,33 @@ values('5')
 insert into pagante(
 	id_aluno
 )
-values('6')
+values
+('9'),
+('8')
 insert into PSG(
 	id_aluno
 )
 values('7')
 
+select * from aluno
 select * from aprendiz
 select * from pagante
 select * from PSG
 
 
 select * from instituicao
-select * from aluno
-select * from funcionario
+
+ALTER TABLE aluno add genero varchar(2)
+UPDATE aluno SET genero = 'F' WHERE id_aluno = 5
+UPDATE aluno SET genero = 'M' WHERE id_aluno = 6
+UPDATE aluno SET genero = 'M' WHERE id_aluno = 7
+UPDATE aluno SET genero = 'F' WHERE id_aluno = 8
+UPDATE aluno SET genero = 'F' WHERE id_aluno = 9
+
+
+
+
+
 
 
 --------------------
@@ -371,9 +547,8 @@ insert into endereco(
 	id_aluno 
 )
 values
-('tal','aquele','ara','5'),
-('tal','aquele','bora','6'),
-('tal','aquele','ora','7');
+('parada','das','bondes','8'),
+('bem','alimentado','senhor','9');
 
 insert into endereco(
 	cidade ,
@@ -387,6 +562,8 @@ values
 ('tal','aass','de','3'),
 ('tal','eve','comer','4');
 
+select * from endereco
+
 
 ------------------------
 -- atualizando enderecos das tabelas
@@ -394,6 +571,8 @@ UPDATE instituicao SET id_endereco = 1 WHERE id_instituicao = 2;
 UPDATE aluno SET id_endereco = 2 WHERE id_aluno = 5;
 UPDATE aluno SET id_endereco = 3 WHERE id_aluno = 6;
 UPDATE aluno SET id_endereco = 4 WHERE id_aluno = 7;
+UPDATE aluno SET id_endereco = 9 WHERE id_aluno = 8;
+UPDATE aluno SET id_endereco = 10 WHERE id_aluno = 9;
 UPDATE funcionario SET id_endereco = 5 WHERE id_funcionario = 1;
 UPDATE funcionario SET id_endereco = 6 WHERE id_funcionario = 2;
 UPDATE funcionario SET id_endereco = 7 WHERE id_funcionario = 3;
