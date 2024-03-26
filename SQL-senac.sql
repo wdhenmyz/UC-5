@@ -259,7 +259,7 @@ insert into instituicao(
 	cnpj,
 	nome	
 )
-values('84912345678','xxyyyzzz0001ab','senac zona norte')
+values('84966666666','aabbbccc0001ab','senac zona sul')
 
 insert into curso(
 	id_instituicao,
@@ -397,6 +397,7 @@ select * from turma
 
 ALTER TABLE curso add numero_alunos int
 ALTER TABLE curso add numero_vagas int
+ALTER TABLE curso add valor int
 UPDATE curso SET numero_vagas = '25' WHERE id_curso = 1
 UPDATE curso SET numero_vagas = '30' WHERE id_curso = 2
 UPDATE curso SET numero_vagas = '30' WHERE id_curso = 3
@@ -414,6 +415,14 @@ UPDATE curso SET numero_alunos = '22' WHERE id_curso = 4
 UPDATE curso SET numero_alunos = '33' WHERE id_curso = 5
 UPDATE curso SET numero_alunos = '35' WHERE id_curso = 6
 UPDATE curso SET numero_alunos = '40' WHERE id_curso = 7
+
+UPDATE curso SET valor = '570' WHERE id_curso = 1
+UPDATE curso SET valor = '300' WHERE id_curso = 2
+UPDATE curso SET valor = '300' WHERE id_curso = 3
+UPDATE curso SET valor = '300' WHERE id_curso = 4
+UPDATE curso SET valor = '300' WHERE id_curso = 5
+UPDATE curso SET valor = '300' WHERE id_curso = 6
+UPDATE curso SET valor = '9000' WHERE id_curso = 7
 
 
 ------------------------
@@ -545,7 +554,7 @@ insert into endereco(
 	rua,
 	id_instituicao
 )
-values('tal','aquele','strata','2')
+values('para','pa pa pa','bam','3')
 
 insert into endereco(
 	cidade,
@@ -574,7 +583,7 @@ select * from endereco
 
 ------------------------
 -- atualizando enderecos das tabelas
-UPDATE instituicao SET id_endereco = 1 WHERE id_instituicao = 2;
+UPDATE instituicao SET id_endereco = 11 WHERE id_instituicao = 3;
 UPDATE aluno SET id_endereco = 2 WHERE id_aluno = 5;
 UPDATE aluno SET id_endereco = 3 WHERE id_aluno = 6;
 UPDATE aluno SET id_endereco = 4 WHERE id_aluno = 7;
@@ -602,24 +611,11 @@ UPDATE funcionario SET id_endereco = 8 WHERE id_funcionario = 4;
 13) select * from curso ORDER BY numero_vagas
 16) select * from curso where data_inicio >= '20000101'
 17) SELECT COUNT (*) FROM aluno WHERE genero = 'F';
-19) select * from curso
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+19) SELECT * FROM curso
+	WHERE numero_alunos = (
+    SELECT MAX(numero_alunos)
+    FROM curso
+); 
 
 
 
