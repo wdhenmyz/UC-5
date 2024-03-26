@@ -129,7 +129,7 @@ ALTER TABLE curso ADD id_professor int
 foreign key (id_professor) references professor(id_professor);
 ALTER TABLE uc ADD nome VARCHAR(9)
 ALTER TABLE turma ADD nome VARCHAR(9)
-UPDATE curso SET nome = 'informática' WHERE id_curso = 1
+UPDATE curso SET nome = 'informÃ¡tica' WHERE id_curso = 1
 UPDATE uc SET nome = 'uc-4' WHERE id_uc = 1
 UPDATE turma SET nome = '1003' WHERE id_turma = 2
 
@@ -293,7 +293,7 @@ insert into idiomas(
 	id_curso
 )
 values
-('inglês','médio','13:00:00','17:00:00','S,T,Q,Q,S','2')
+('inglÃªs','mÃ©dio','13:00:00','17:00:00','S,T,Q,Q,S','2')
 
 insert into idiomas(
 	nome ,
@@ -304,7 +304,7 @@ insert into idiomas(
 	id_curso
 )
 values
-('espanhol','médio','8:00:00','12:00:00','S,T,Q,Q,S','3')
+('espanhol','mÃ©dio','8:00:00','12:00:00','S,T,Q,Q,S','3')
 
 insert into idiomas(
 	nome ,
@@ -315,7 +315,7 @@ insert into idiomas(
 	id_curso
 )
 values
-('alemão','médio','8:00:00','12:00:00','S,T,Q,Q,S','4')
+('alemÃ£o','mÃ©dio','8:00:00','12:00:00','S,T,Q,Q,S','4')
 
 insert into idiomas(
 	nome ,
@@ -326,7 +326,7 @@ insert into idiomas(
 	id_curso
 )
 values
-('francês','médio','8:00:00','12:00:00','S,T,Q,Q,S','5')
+('francÃªs','mÃ©dio','8:00:00','12:00:00','S,T,Q,Q,S','5')
 
 insert into idiomas(
 	nome ,
@@ -337,7 +337,7 @@ insert into idiomas(
 	id_curso
 )
 values
-('italiano','médio','13:00:00','17:00:00','S,T,Q,Q,S','6')
+('italiano','mÃ©dio','13:00:00','17:00:00','S,T,Q,Q,S','6')
 
 select * from idiomas
 
@@ -573,7 +573,7 @@ insert into endereco(
 	id_funcionario
 )
 values
-('tal','bombom','tão','1'),
+('tal','bombom','tÃ£o','1'),
 ('tal','boes','bom','2'),
 ('tal','aass','de','3'),
 ('tal','eve','comer','4');
