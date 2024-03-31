@@ -13,11 +13,13 @@ create table instituicao(
 create table curso(
 	id_curso int identity(1,1) primary key,
 	id_instituicao int,
+ id_professor int,
 	data_inicio date,
 	data_termino date,
 	horario time,
 	nome varchar(20),
 	numero_alunos int,
+foreign key (id_professor) references professor(id_professor);
 	foreign key (id_instituicao) references instituicao(id_instituicao)
 );
 
