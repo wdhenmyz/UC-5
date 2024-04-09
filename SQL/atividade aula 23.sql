@@ -2,9 +2,10 @@ use sistema_biblioteca;
 
 
 --1. Retornar todos os livros de sociologia.
-SELECT * FROM LIVRO where numero_registro > 17 and numero_registro < 34;
 SELECT * FROM LIVRO 
 join sociologia on SOCIOLOGIA.numero_registro  = livro.numero_registro;
+
+SELECT * FROM LIVRO where numero_registro > 17 and numero_registro < 34;
 
 
 --2. Listar os nomes dos funcionários que são bibliotecários.
@@ -231,7 +232,98 @@ sum    --soma
 
 
 
+--criando procedimento para listar fucionarios
+CREATE PROCEDURE sp_Listar_funcionarios
+AS
+BEGIN
+    SELECT * FROM FUNCIONARIO;
+END;
 
+exec sp_Listar_funcionarios;
+
+--crie uma procedure que retorna todos os livros de tecnologia
+CREATE PROCEDURE sp_livros_tecnologia
+AS
+BEGIN
+    SELECT * FROM Livro
+	join TECNOLOGIA on livro.numero_registro = TECNOLOGIA.numero_registro;
+END;
+
+exec sp_livros_tecnologia;
+
+--criar um procedimento para buscar um livro pelo nome
+CREATE PROCEDURE sp_buscar_livros
+	@titulo nvarchar(100)
+AS
+BEGIN
+    SELECT * FROM Livro where titulo like @titulo+;
+END;
+
+exec sp_buscar_livros @titulo = '%python%'
+
+create PROCEDURE sp_buscar_livros_concatenado
+	@titulo nvarchar(100)
+AS
+BEGIN
+    SELECT * FROM Livro where titulo like '%'+@titulo+'%';
+END;
+
+exec sp_buscar_livros_concatenado @titulo = python
+
+/*
+crie uma procedure que retorna todos os livros do ano(2016)
+*/
+CREATE PROCEDURE sp_buscar_livros_ano
+	@ano nvarchar(6)
+AS
+BEGIN
+    SELECT * FROM LIVRO 
+	WHERE Ano_Publicacao = @ano;
+END;
+
+exec sp_buscar_livros_ano @ano = 2016
+
+-- crie uma procedure que filtra os livros de tecnologia por ano
+CREATE PROCEDURE sp_livros_tecnologia_ano
+	@ano nvarchar(6)
+AS
+BEGIN
+    SELECT * FROM LIVRO 
+	join TECNOLOGIA on livro.numero_registro = TECNOLOGIA.numero_registro
+	WHERE Ano_Publicacao = @ano;
+END;
+
+exec sp_livros_tecnologia_ano @ano = 2015
+
+-- criar procedure para inserir registro de funcionario
+CREATE PROCEDURE sp_InserirFuncionarios
+	@matricula nvarchar(6),
+	@nome nvarchar(50)
+AS
+BEGIN
+    insert into FUNCIONARIO (matricula, nome)
+	values (@matricula, @nome);
+END;
+
+exec sp_InserirFuncionarios @matricula = 'TI0202', @nome = 'Manuel Gomes'
+
+--criar procedure para inserir registro de funcionario do tipo educador
+CREATE PROCEDURE sp_InserirFuncionario_educador
+	@matricula nvarchar(6),
+	@nome nvarchar(50)
+AS
+BEGIN
+    insert into FUNCIONARIO (matricula, nome)
+	values (@matricula, @nome)
+
+	insert into EDUCADOR(matricula, nome)
+	values (@matricula, @nome)
+END;
+
+exec sp_InserirFuncionario_educador @matricula='ED0203', @nome='João Gomes'
+
+SELECT * FROM FUNCIONARIO 
+join EDUCADOR on FUNCIONARIO.matricula = EDUCADOR.matricula
 
 
 
@@ -281,3 +373,160 @@ values
 ('barão','ari','tão-tão'),
 ('barão','ero','distante'),
 ('barão','pou','caramba')
+
+
+--1. Criar uma procedure para inserir um registro de funcionário do tipo educador, recebendo nome e matrícula como parâmetros.
+CREATE PROCEDURE sp_InserirFuncionario_educador
+	@matricula nvarchar(6),
+	@nome nvarchar(50)
+AS
+BEGIN
+    insert into FUNCIONARIO (matricula, nome)
+	values (@matricula, @nome)
+
+	insert into EDUCADOR(matricula, nome)
+	values (@matricula, @nome)
+END;
+
+exec sp_InserirFuncionario_educador @matricula='ED0203', @nome='João Gomes'
+
+--2. Criar uma procedure para listar os livros de uma categoria específica, recebendo o nome da categoria como parâmetro.
+CREATE PROCEDURE sp_livros_ciencia
+AS
+BEGIN
+    SELECT * FROM LIVRO 
+	join @categoria on livro.numero_registro = @categoria.numero_registro
+	where @categoria ;
+END;
+
+
+--3. Criar uma procedure para obter os nomes dos funcionários de um determinado cargo, recebendo o cargo como parâmetro. (confusão)
+CREATE PROCEDURE sp_funcionarios_cargo
+	@cargo nvarchar(20)
+AS
+BEGIN
+    SELECT * FROM FUNCIONARIO
+	join @cargo on FUNCIONARIO.matricula = @cargo.matricula;
+END;
+
+
+--4. Criar uma procedure para exibir os títulos dos livros publicados antes de um ano específico, recebendo o ano como parâmetro. (FEITO)
+CREATE PROCEDURE sp_livros_anteriores
+	@ano nvarchar (30)
+AS
+BEGIN
+    SELECT * FROM LIVRO
+	WHERE Ano_Publicacao < @ano ;
+END;
+
+exec sp_livros_anteriores @ano = 2015
+
+--5. Criar uma procedure para contar o número total de livros em uma biblioteca específica, recebendo o CNPJ da biblioteca como parâmetro. (FEITO)
+CREATE PROCEDURE sp_CalcularLivros_biblioteca
+	@cnpj nvarchar(14)
+AS
+BEGIN
+    SELECT COUNT(*) FROM LIVRO_BIBLIOTECA
+	where CNPJ = @cnpj;
+END;
+
+exec sp_CalcularLivros_biblioteca @cnpj = '01234567000112'
+
+--6. Criar uma procedure para listar os eventos de um tipo específico que aconteceram após um ano determinado, recebendo o tipo de evento e o ano como parâmetros. (FEITO)
+CREATE PROCEDURE sp_EventosPorAno
+	@ano nvarchar (30),
+	@tipo nvarchar (30)
+AS
+BEGIN
+    SELECT * FROM EVENTO
+	where year(data) > @ano 
+	and tipo = @tipo ;
+END;
+
+exec sp_EventosPorAno @ano = 2020, @tipo = 'workshop'
+
+--7. Criar uma procedure para mostrar os nomes dos usuários que fizeram empréstimos de livros em um mês e ano específicos, recebendo o mês e o ano como parâmetros. (FEITO)
+CREATE PROCEDURE sp_empréstimos_mês_ano
+	@ano nvarchar (6),
+	@mes nvarchar (2)
+as
+begin
+	select Nome from USUARIO
+	join EMPRESTIMO on usuario.id_usuario = EMPRESTIMO.usuario
+	where year(data_emprestimo) = @ano and MONTH(data_emprestimo) = @mes;
+end;
+
+exec sp_empréstimos_mês_ano @ano = 2023, @mes = 01 
+
+--8. Criar uma procedure para encontrar os títulos dos livros de uma categoria específica que contenham uma palavra-chave no título, recebendo a categoria e a palavrachave como parâmetros.
+create procedure sp_LIVRO_cat_chave
+	@categoria nvarchar(),
+	@palvra_chave nvarchar (30)
+as
+begin
+	SELECT * from LIVRO
+	join sociologia on SOCIOLOGIA.numero_registro  = livro.numero_registro
+	where titulo like '%'+@palavra_chave+'%';
+end;
+
+
+
+--9. Criar uma procedure para listar os títulos dos periódicos disponíveis em uma biblioteca específica, recebendo o CNPJ da biblioteca como parâmetro.
+
+
+
+
+--10.Criar uma procedure para exibir o título e o autor dos livros emprestados por um usuário específico, recebendo o ID do usuário como parâmetro.
+
+
+
+
+--11.Criar uma procedure para inserir um registro de funcionário do tipo educador, recebendo nome e matrícula como parâmetros.
+
+
+
+
+--12.Criar uma procedure para listar os livros de uma categoria específica, recebendo o nome da categoria como parâmetro.
+
+
+
+
+--13.Criar uma procedure para obter os nomes dos funcionários de um determinado cargo, recebendo o cargo como parâmetro.
+
+
+
+
+--14.Criar uma procedure para exibir os títulos dos livros publicados antes de um ano específico, recebendo o ano como parâmetro.
+
+
+
+
+--15.Criar uma procedure para contar o número total de livros em uma biblioteca específica, recebendo o CNPJ da biblioteca como parâmetro.
+
+
+
+
+--16.Criar uma procedure para listar os eventos de um tipo específico que aconteceram após um ano determinado, recebendo o tipo de evento e o ano como parâmetros.
+
+
+
+
+--17.Criar uma procedure para mostrar os nomes dos usuários que fizeram empréstimos de livros em um mês e ano específicos, recebendo o mês e o ano como parâmetros.
+
+
+
+
+--18.Criar uma procedure para encontrar os títulos dos livros de uma categoria específica que contenham uma palavra-chave no título, recebendo a categoria e a palavrachave como parâmetros.
+
+
+
+
+--19.Criar uma procedure para listar os títulos dos periódicos disponíveis em uma biblioteca específica, recebendo o CNPJ da biblioteca como parâmetro.
+
+
+
+
+--20.Criar uma procedure para exibir o título e o autor dos livros emprestados por um usuário específico, recebendo o ID do usuário como parâmetro.
+
+
+
