@@ -405,48 +405,48 @@ END;
 
 exec sp_InserirFuncionario_educador @matricula='ED0203', @nome='João Gomes'
 
---2. Criar uma procedure para listar os livros de uma categoria específica, recebendo o nome da categoria como parâmetro.(confusão)
+--2. Criar uma procedure para listar os livros de uma categoria específica, recebendo o nome da categoria como parâmetro.(FEITO)
 CREATE PROCEDURE sp_livros_ciencia
 AS
 BEGIN
     SELECT * FROM LIVRO 
-	join @categoria on livro.numero_registro = @categoria.numero_registro
-	where @categoria ;
+	join CIENCIA on livro.numero_registro = CIENCIA.numero_registro;
 END;
 
+exec sp_livros_ciencia
 
---3. Criar uma procedure para obter os nomes dos funcionários de um determinado cargo, recebendo o cargo como parâmetro. (confusão)
-CREATE PROCEDURE sp_funcionarios_cargo
-	@cargo nvarchar(20)
+--3. Criar uma procedure para obter os nomes dos funcionários de um determinado cargo, recebendo o cargo como parâmetro. (FEITO)
+CREATE PROCEDURE sp_funcionarios_ATENDENTES
 AS
 BEGIN
     SELECT * FROM FUNCIONARIO
-	join @cargo on FUNCIONARIO.matricula = @cargo.matricula;
+	join ATENDENTE on FUNCIONARIO.matricula = ATENDENTE.matricula;
 END;
 
+EXEC sp_funcionarios_ATENDENTES
 
 --4. Criar uma procedure para exibir os títulos dos livros publicados antes de um ano específico, recebendo o ano como parâmetro. (FEITO)
-CREATE PROCEDURE sp_livros_anteriores
-	@ano nvarchar (30)
-AS
-BEGIN
-    SELECT * FROM LIVRO
-	WHERE Ano_Publicacao < @ano ;
-END;
+create procedure sp_livros_anteriores_a
+	@ano char(4)
+as
+begin
+	SELECT titulo FROM Livro 
+	WHERE Ano_Publicacao < @ano;
+end;
 
-exec sp_livros_anteriores @ano = 2015
+exec sp_livros_anteriores_a @ano = 2020
 
 --5. Criar uma procedure para contar o número total de livros em uma biblioteca específica, recebendo o CNPJ da biblioteca como parâmetro. (MESMA DA 15)
 create procedure sp_numeroLivros
 	@cnpj nvarchar(14)
 as
 begin
-	select COUNT(*) as total_livro from LIVRO
+	select count(*) as total_livro from LIVRO
 	join LIVRO_BIBLIOTECA on LIVRO.numero_registro = LIVRO_BIBLIOTECA.numero_registro
 	where cnpj = @cnpj
 end;
 
-exec sp_numeroLivros @cnpj = '01234567000112'
+exec sp_numeroLivros @cnpj = '12345678000123'
 
 DROP PROCEDURE sp_CalcularLivros_biblioteca
 
@@ -464,9 +464,9 @@ END;
 exec sp_EventosPorAno @ano = 2020, @tipo = 'workshop'
 
 --7. Criar uma procedure para mostrar os nomes dos usuários que fizeram empréstimos de livros em um mês e ano específicos, recebendo o mês e o ano como parâmetros. (FEITO)
-CREATE PROCEDURE sp_empréstimos_mês_ano
-	@ano nvarchar (6),
-	@mes nvarchar (2)
+alter PROCEDURE sp_empréstimos_mês_ano
+	@ano int,
+	@mes int
 as
 begin
 	select Nome from USUARIO
@@ -476,9 +476,9 @@ end;
 
 exec sp_empréstimos_mês_ano @ano = 2023, @mes = 01 
 
---8. Criar uma procedure para encontrar os títulos dos livros de uma categoria específica que contenham uma palavra-chave no título, recebendo a categoria e a palavrachave como parâmetros. (confusão)
+--8. Criar uma procedure para encontrar os títulos dos livros de uma categoria específica que contenham uma palavra-chave no título, recebendo a categoria e a palavrachave como parâmetros. (FEITO)
 create procedure sp_LIVRO_sociologia_chave
-	@palvra_chave nvarchar (30)
+	@palavra_chave nvarchar (30)
 as
 begin
 	SELECT * from LIVRO
@@ -486,7 +486,7 @@ begin
 	where titulo like '%'+@palavra_chave+'%';
 end;
 
-
+EXEC sp_LIVRO_sociologia_chave @palavra_chave = 'casa'
 
 --9. Criar uma procedure para listar os títulos dos periódicos disponíveis em uma biblioteca específica, recebendo o CNPJ da biblioteca como parâmetro. (FEITO)
 create procedure sp_periodicos_biblioteca
@@ -551,7 +551,7 @@ end;
 exec sp_funcionario_cargo @cargo = A
 drop procedure sp_funcionario_cargo
  
---14.Criar uma procedure para exibir os títulos dos livros publicados antes de um ano específico, recebendo o ano como parâmetro. (FEITO)
+--14.Criar uma procedure para exibir os títulos dos livros publicados antes de um ano específico, recebendo o ano como parâmetro. (mesmo da 4)
 create procedure sp_livros_anteriores_a
 	@ano char(4)
 as
